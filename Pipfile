@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+sqlalchemy = "*"
+psycopg2-binary = "*"
+python-ulid = {extras = ["pydantic"], version = "*"}
+fastapi = {extras = ["standard"], version = "*"}
+
+[dev-packages]
+alembic = "*"
+
+[scripts]
+dev = "fastapi dev main.py"
+run = "fastapi run main.py"
+migrate-up = "alembic upgrade head"
+migrate-gen = "alembic revision --autogenerate"
+
+[requires]
+python_version = "3.12"
