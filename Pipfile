@@ -16,6 +16,7 @@ alembic = "*"
 dev = "fastapi dev main.py"
 run = "fastapi run main.py"
 migrate-up = "alembic upgrade head"
+migrate-down = "alembic downgrade -1"
 migrate-gen = "alembic revision --autogenerate"
 
 [requires]

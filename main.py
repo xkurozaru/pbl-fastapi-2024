@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import Body, Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -25,9 +27,9 @@ def get_db():
         db.close()
 
 
-def get_auth_user_id(authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> str:
+def get_auth_user_id(authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> UUID:
     # FIXME: Need to use 〇〇〇
-    return authorization.credentials
+    return UUID(authorization.credentials)
 
 
 @app.get("/")
@@ -66,7 +68,7 @@ async def delete_user(
 @app.get("/items")
 async def get_items(
     db: Session = Depends(get_db),
-    user_id: str = Depends(get_auth_user_id),
+    user_id: UUID = Depends(get_auth_user_id),
 ) -> list[items.ItemSchema]:
     item_list = items_database.read_items(db, user_id)
     return [items.ItemSchema.model_validate(i) for i in item_list]
@@ -77,7 +79,7 @@ async def post_item(
     name: str = Body(...),
     price: int = Body(...),
     db: Session = Depends(get_db),
-    user_id: str = Depends(get_auth_user_id),
+    user_id: UUID = Depends(get_auth_user_id),
 ) -> items.ItemSchema:
     i = items.Item(name, price, user_id)
     items_database.create_item(db, i)
@@ -88,6 +90,6 @@ async def post_item(
 async def delete_item(
     item_id: str,
     db: Session = Depends(get_db),
-    user_id: str = Depends(get_auth_user_id),
+    user_id: UUID = Depends(get_auth_user_id),
 ) -> None:
     items_database.destroy_item(db, user_id, item_id)
