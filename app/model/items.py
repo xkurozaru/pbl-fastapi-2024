@@ -12,7 +12,7 @@ class Item(Base):
     id = Column(String(26), primary_key=True)
     name = Column(String(255))
     price = Column(Integer)
-    user_id = Column(UUID, nullable=False)
+    user_id = Column(UUID, nullable=False, index=True)
 
     def __init__(self, name: str, price: int, user_id: uuid.UUID):
         self.id = str(ULID())
