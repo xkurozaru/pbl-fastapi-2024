@@ -8,6 +8,8 @@ sqlalchemy = "*"
 psycopg2-binary = "*"
 python-ulid = {extras = ["pydantic"], version = "*"}
 fastapi = {extras = ["standard"], version = "*"}
+python-jose = {extras = ["cryptography"], version = "*"}
+supabase = "*"
 
 [dev-packages]
 alembic = "*"
