@@ -1,3 +1,4 @@
+import os
 from uuid import UUID
 
 from fastapi import Body, Depends, FastAPI
@@ -12,7 +13,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[os.environ.get("ALLOW_ORIGIN")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
