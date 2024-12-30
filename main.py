@@ -24,6 +24,14 @@ async def root():
     return {"message": "Hello World From Fast API!"}
 
 
+@app.get("/health")
+async def health_check(
+    db: Session = Depends(database.get_db),
+):
+    db.execute("SELECT 1")
+    return {"status": "ok"}
+
+
 @app.get("/users")
 async def get_users(
     db: Session = Depends(database.get_db),
