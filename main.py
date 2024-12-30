@@ -5,7 +5,7 @@ from fastapi import Body, Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from app.database import items_database, users_database
+from app.database import health_database, items_database, users_database
 from app.middleware import auth, database
 from app.model import items, users
 
@@ -26,11 +26,11 @@ async def root():
 
 
 @app.get("/health")
-async def health_check(
+async def health(
     db: Session = Depends(database.get_db),
 ):
-    db.execute("SELECT 1")
-    return {"status": "ok"}
+    status = health_database.health_check(db)
+    return {"status": status}
 
 
 @app.get("/users")
